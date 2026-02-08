@@ -1,0 +1,22 @@
+.venv
+.pytest_cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.sqlite
+.git
+
+# User/runtime data should be mounted as a volume
+data/*
+!data/.gitkeep
+
+tests
+docs
+*.md
+!.env.example
+!README.md
+
+# Frontend + local archives are built separately
+web
+archive

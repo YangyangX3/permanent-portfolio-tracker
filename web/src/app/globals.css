@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: 48 52% 96%;
+  --ink: 220 20% 14%;
+  --muted: 220 10% 38%;
+  --wash: 48 35% 92%;
+  --ring: 220 60% 42%;
+  --accent: 208 80% 44%;
+  --stamp: 8 70% 45%;
+  --danger: 0 78% 46%;
+  --ok: 146 48% 38%;
+
+  --paper-edge: 220 15% 10%;
+}
+
+.dark {
+  --paper: 220 18% 8%;
+  --ink: 45 25% 92%;
+  --muted: 45 10% 68%;
+  --wash: 220 18% 12%;
+  --ring: 44 80% 58%;
+  --accent: 200 92% 62%;
+  --stamp: 10 78% 55%;
+  --danger: 0 84% 62%;
+  --ok: 146 52% 52%;
+
+  --paper-edge: 45 30% 92%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: hsl(var(--ink));
+  background: hsl(var(--paper));
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+* {
+  text-rendering: geometricPrecision;
+}
+
+.pp-page {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.pp-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(1200px 800px at 12% 10%, hsla(var(--accent) / 0.12), transparent 60%),
+    radial-gradient(900px 700px at 85% 25%, hsla(var(--stamp) / 0.10), transparent 62%),
+    radial-gradient(1000px 700px at 60% 90%, hsla(var(--ring) / 0.10), transparent 60%),
+    repeating-linear-gradient(0deg, hsla(var(--ink) / 0.06) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, hsla(var(--ink) / 0.03) 0 1px, transparent 1px 34px);
+  opacity: 0.75;
+  mix-blend-mode: multiply;
+}
+
+.dark .pp-page::before {
+  opacity: 0.35;
+  mix-blend-mode: screen;
+}
+
+.pp-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.10;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  background-size: 280px 280px;
+}
+
+.dark .pp-page::after {
+  opacity: 0.08;
+}
+
+@layer components {
+  .pp-card {
+    @apply rounded-lg border border-ink/10 bg-paper/85 shadow-sm backdrop-blur;
+  }
+  .pp-title {
+    font-family: var(--font-serif), ui-serif, Georgia, "Times New Roman", serif;
+    letter-spacing: 0.02em;
+  }
+  .pp-mono {
+    font-variant-numeric: tabular-nums;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  }
+  .pp-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-ink/15 bg-paper px-2.5 py-1.5 text-[12px] font-medium text-ink shadow-sm transition;
+  }
+  .pp-btn:hover {
+    @apply border-ink/25 shadow-md;
+  }
+  .pp-btn:active {
+    transform: translateY(1px);
+  }
+  .pp-btn-ghost {
+    @apply bg-transparent shadow-none;
+  }
+  .pp-btn-primary {
+    @apply border-transparent bg-ink text-paper;
+  }
+  .pp-btn-primary:hover {
+    @apply bg-ink/90;
+  }
+  .pp-badge {
+    @apply inline-flex items-center gap-1 rounded-full border border-ink/10 bg-paper/70 px-1.5 py-0.5 text-[10.5px] text-ink/75;
+  }
+  .pp-stamp {
+    @apply inline-flex items-center rounded-full border border-stamp/40 bg-stamp/10 px-1.5 py-0.5 text-[10.5px] font-medium text-stamp;
+  }
+  .pp-input {
+    @apply w-full rounded-lg border border-ink/15 bg-paper/70 px-2.5 py-1.5 text-[12px] text-ink outline-none transition placeholder:text-ink/40;
+  }
+  .pp-input:focus {
+    @apply border-ring/50 ring-2 ring-ring/20;
+  }
+  .pp-select {
+    @apply w-full appearance-none rounded-lg border border-ink/15 bg-paper/70 px-2.5 py-1.5 text-[12px] text-ink outline-none transition;
+  }
+  .pp-select:focus {
+    @apply border-ring/50 ring-2 ring-ring/20;
+  }
+}

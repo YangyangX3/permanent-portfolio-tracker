@@ -1,0 +1,51 @@
+services:
+  pp:
+    build:
+      context: .
+    container_name: permanent-portfolio-api
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    environment:
+      PP_TIMEZONE: "${PP_TIMEZONE:-Asia/Shanghai}"
+      PP_EMAIL_ENABLED: "${PP_EMAIL_ENABLED:-false}"
+      PP_DAILY_JOB_TIME: "${PP_DAILY_JOB_TIME:-09:05}"
+      PP_NOTIFY_COOLDOWN_MINUTES: "${PP_NOTIFY_COOLDOWN_MINUTES:-360}"
+      PP_CRYPTO_SLIP_PCT: "${PP_CRYPTO_SLIP_PCT:-1}"
+      PP_CACHE_ACTIVE_REFRESH_SECONDS: "${PP_CACHE_ACTIVE_REFRESH_SECONDS:-4}"
+      PP_CACHE_IDLE_REFRESH_SECONDS: "${PP_CACHE_IDLE_REFRESH_SECONDS:-20}"
+      PP_CACHE_IDLE_AFTER_SECONDS: "${PP_CACHE_IDLE_AFTER_SECONDS:-60}"
+      PP_CACHE_MIN_REFRESH_GAP_SECONDS: "${PP_CACHE_MIN_REFRESH_GAP_SECONDS:-1}"
+      PP_SNAPSHOT_INTERVAL_SECONDS: "${PP_SNAPSHOT_INTERVAL_SECONDS:-60}"
+
+      PP_SMTP_HOST: "${PP_SMTP_HOST:-}"
+      PP_SMTP_PORT: "${PP_SMTP_PORT:-587}"
+      PP_SMTP_USERNAME: "${PP_SMTP_USERNAME:-}"
+      PP_SMTP_PASSWORD: "${PP_SMTP_PASSWORD:-}"
+      PP_SMTP_USE_STARTTLS: "${PP_SMTP_USE_STARTTLS:-true}"
+      PP_MAIL_FROM: "${PP_MAIL_FROM:-}"
+      PP_MAIL_TO: "${PP_MAIL_TO:-}"
+
+      PP_RPC_ETH: "${PP_RPC_ETH:-}"
+      PP_RPC_BSC: "${PP_RPC_BSC:-}"
+      PP_RPC_POLYGON: "${PP_RPC_POLYGON:-}"
+      PP_RPC_SOLANA: "${PP_RPC_SOLANA:-}"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health').read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  web:
+    build:
+      context: ./web
+      args:
+        PP_BACKEND_ORIGIN: "http://pp:8000"
+    container_name: permanent-portfolio-web
+    restart: unless-stopped
+    ports:
+      - "${PP_PORT:-8010}:3000"
+    environment:
+      PP_BACKEND_ORIGIN: "http://pp:8000"
+    depends_on:
+      - pp

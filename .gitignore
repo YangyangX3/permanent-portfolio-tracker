@@ -1,0 +1,43 @@
+# Python
+.venv/
+.pytest_cache/
+**/__pycache__/
+**/*.py[cod]
+**/*.pyd
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Env files (keep examples)
+/.env
+/.env.*
+!.env.example
+
+# Runtime data (do not commit secrets or personal data)
+data/*
+!data/.gitkeep
+
+# Local archives/backups
+archive/
+
+# Web (Next.js)
+web/node_modules/
+web/.next/
+web/.turbo/
+web/out/
+web/dist/
+web/.env.*
+!web/.env.local.example
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+
+# Logs
+*.log
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
